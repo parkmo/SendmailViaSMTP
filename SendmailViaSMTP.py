@@ -47,16 +47,16 @@ import fileinput
 
 import smtplib
 import mimetypes
-from email import Encoders
-from email.MIMEBase import MIMEBase
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEImage import MIMEImage
+#from email import Encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
 __author__ ="leopku#qq.com"
 __date__ ="$2012-08-25 14:05:56$"
 
-__usage__ = u'''python %prog [--host=smtp.yourdomain.com] <--port=110> [--user=smtpaccount] [--password=smtppass] <--subject=subject> [--file=filename]|[--content=mailbody] [--from=sender] [--to=reciver].
+__usage__ = '''python %prog [--host=smtp.yourdomain.com] <--port=110> [--user=smtpaccount] [--password=smtppass] <--subject=subject> [--file=filename]|[--content=mailbody] [--from=sender] [--to=reciver].
 
     example:
     1. echo "blablabla" | python %prog --host="mail.domain.com" --from="myname@yourdomain.com" --to="friends1@domain1.com;friends2@domain.com" --user="myname@yourdomain.com" --password="p4word" --subject="mail title"
@@ -66,7 +66,7 @@ __usage__ = u'''python %prog [--host=smtp.yourdomain.com] <--port=110> [--user=s
     The priority of three content inputing method is: piped-data, --file, --content.'''
 
 __version__ = '%prog 1.2'
-__desc__ = u'''This is a command line kit for sending mail via smtp server which can use in multiple platforms like linux, BSD, Windows etc.
+__desc__ = '''This is a command line kit for sending mail via smtp server which can use in multiple platforms like linux, BSD, Windows etc.
     This little kit was written by %s using python.
     The minimum version of python required was 2.3.''' % (__author__)
 
@@ -93,7 +93,7 @@ class Mail:
         if attachments:
             for attachment in attachments:
                 if not os.path.isfile(attachment):
-                    print 'WARNING: Unable to attach %s because it is not a file.' % attachment
+                    print('WARNING: Unable to attach %s because it is not a file.' % attachment)
                     continue
 
                 ctype, encoding = mimetypes.guess_type(attachment)
@@ -114,8 +114,8 @@ class SMTPServer:
     """docstring for SMTPServer"""
     def __init__(self, host='localhost', user='', password='', port=25, tls=False):
         self.port = port
-        self.smtp = smtplib.SMTP()
         self.host = host
+        self.smtp = smtplib.SMTP(self.host)
         self.user = user
         self.password = password
         self.is_gmail = False
@@ -162,8 +162,6 @@ if __name__ == "__main__":
         raise ValueError('Invalid log level: %s' % opts.log)
     if sys.version_info < (2, 3, 0):
         raise 'Python runtime MUST greater than 2.3.0'
-    elif sys.version_info > (3, 0, 0):
-        raise 'Python 3.0 was NOT recommented!'
     elif sys.version_info >= (2, 3, 0) and sys.version_info < (2, 4, 0):
         logging.basicConfig()
     else:
@@ -206,7 +204,7 @@ if __name__ == "__main__":
             logging.info('sending mail...')
             smtp.sendmail(mail)
             logging.info('all done.')
-        except Exception, e:
+        except Exception as e:
             logging.critical('[Exception]%s' % e)
     else:
         msg = '''ERROR: Mail content is EMPTY! Please specify one option of listed: piped-data, --file or --content.

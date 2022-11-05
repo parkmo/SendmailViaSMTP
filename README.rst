@@ -11,8 +11,9 @@ SendmailViaSMTP is distributed under the BSD license.
 
 Where is SendmailViaSMTP
 --------------------------
-* Homepage: http://www.himysql.com (Chinese)
-* Source code: https://github.com/leopku/SendmailViaSMTP
+* Origin-Homepage: http://www.himysql.com (Chinese)
+* Origin-Source code: https://github.com/leopku/SendmailViaSMTP
+* 2to3 and 3run tested code: https://github.com/parkmo/SendmailViaSMTP
 
 Features
 ---------
@@ -27,7 +28,7 @@ Features
 Requirements
 -------------
 
-* `python`_ 2.3.x
+* `python`_ 3.x (test on 3.9.2)
 
 .. _python: http://www.python.org/
 
